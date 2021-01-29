@@ -5,8 +5,6 @@ let inputGroup = `<button class="btn btn-outline-secondary timeslot" type="butto
 <input type="text" class="form-control" placeholder="" aria-label="Example text with two button addons">
 <button class="btn btn-outline-secondary" type="button">Save</button>`;
 
-$(".container").append("<div></div>").addClass("input-group mb-3 ");
-
 function draw() {
   let m;
   for (let i = 7; i <= 20; i += 0.5) {
@@ -15,14 +13,14 @@ function draw() {
       m = "00";
     } else m = "30";
     var className = checkTime(h, m);
-    console.log(className, h, m);
-    document.querySelector(
-      ".input-group"
-    ).innerHTML += `<div class="input-group ${className + " " + h + m} mb-3">
+    // console.log(className, h, m);
+    $("#schedule").append(`<div class="input-group ${
+      className + " " + h + m
+    } mb-3">
       <button class="timeSlot" id="t${h}${m}" style="max-width: 60px">${h}:${m}</button>
       <input type="text" id="activity" class="form-control" placeholder="" aria-label="Example text with two button addons">
       <button class="btn-save btn-outline-secondary" onClick="saveActivity(event)" type="button">Save</button>
-      </div>`;
+      </div>`);
     // console.log(Number(m));
   }
 }
