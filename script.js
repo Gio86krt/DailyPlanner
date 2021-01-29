@@ -19,8 +19,8 @@ function draw() {
       ".input-group"
     ).innerHTML += `<div class="input-group ${className} mb-3">
       <button class="timeSlot" id="t${h}${m}" style="max-width: 60px">${h}:${m}</button>
-      <input type="text" id="activity" class="form-control" placeholder="" aria-label="Example text with two button addons">
-      <button class="btn-save btn-outline-secondary " onClick="saveActivity(event)" type="button">Save</button>
+      <input type="text" id="activity" class="form-control" onfocusout="saveActivity(event)" placeholder="" aria-label="Example text with two button addons">
+      <button class="btn-save btn-outline-secondary" onClick="saveActivity(event)" type="button">Save</button>
       </div>`;
     // console.log(Number(now) === Number(h));
   }
@@ -31,11 +31,10 @@ function saveActivity(event) {
   let div = event.target.closest("div");
   let input = div.querySelector("#activity").value;
   let time = div.querySelector(".timeSlot").innerHTML.split(":").join("");
-  console.log(time + "save");
-  let btn = div.querySelector(".btn-save");
-
-  arrActivity.push({ activity: input, time: time });
-  localStorage.activities = JSON.stringify(arrActivity);
+  if (input && !arrActivity.includes(input)) {
+    arrActivity.push({ activity: input, time: time });
+    localStorage.activities = JSON.stringify(arrActivity);
+  }
 }
 
 function reloadPage() {
