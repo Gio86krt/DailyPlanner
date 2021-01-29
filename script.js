@@ -1,4 +1,4 @@
-let now = moment().format("H");
+let now = moment().format("H m");
 let arrActivity = [];
 
 let inputGroup = `<button class="btn btn-outline-secondary timeslot" type="button"></button>
@@ -14,15 +14,16 @@ function draw() {
     if (i == h) {
       m = "00";
     } else m = "30";
-    var className = checkTime(Number(h));
+    var className = checkTime(h, m);
+    console.log(className, h, m);
     document.querySelector(
       ".input-group"
-    ).innerHTML += `<div class="input-group ${className} mb-3">
+    ).innerHTML += `<div class="input-group ${className + " " + h + m} mb-3">
       <button class="timeSlot" id="t${h}${m}" style="max-width: 60px">${h}:${m}</button>
       <input type="text" id="activity" class="form-control" placeholder="" aria-label="Example text with two button addons">
       <button class="btn-save btn-outline-secondary" onClick="saveActivity(event)" type="button">Save</button>
       </div>`;
-    // console.log(Number(now) === Number(h));
+    // console.log(Number(m));
   }
 }
 draw();
@@ -53,12 +54,20 @@ function reloadPage() {
   }
 }
 
-function checkTime(hour) {
-  if (Number(hour) < Number(now)) {
+function checkTime(h, m) {
+  let hour = Number(now.slice(0, 2));
+  let min = Number(now.slice(-2));
+  h = Number(h);
+  m = Number(m);
+  console.log(`${h},${m}`);
+  console.log(`${hour},${min}`);
+  if (hour > h) {
     return "past";
-  } else if (Number(hour) === Number(now)) {
-    return "present";
-  } else if (Number(hour) > Number(now)) {
+  } else if (hour === h) {
+    // console.log("checking min" + min, min > 30);
+    if (min > m) return "present";
+    else return "future";
+  } else if (hour < Number(h)) {
     return "future";
   }
 }
